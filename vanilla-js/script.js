@@ -1,3 +1,5 @@
+import apikey from "../config.js";
+
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
   { name: "science", color: "#16a34a" },
@@ -22,24 +24,22 @@ createSideBar(CATEGORIES);
 loadFacts();
 
 // function to store data
-const storeData = data => {
-    if (storage.length > 0) {
-        storage = storage.concat(data.animals.slice());
-    } else {
-        storage = data.animals.slice();
-    }
-    return storage;
-}
+const storeData = (data) => {
+  if (storage.length > 0) {
+    storage = storage.concat(data.animals.slice());
+  } else {
+    storage = data.animals.slice();
+  }
+  return storage;
+};
 
 async function loadFacts() {
   const res = await fetch(
     "https://jpnjisjdtomhzxdyhcrm.supabase.co/rest/v1/facts",
     {
       headers: {
-        apikey:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
-        authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
+        apikey: apikey,
+        authorization: "Bearer " + apikey,
       },
     }
   );
@@ -49,17 +49,17 @@ async function loadFacts() {
 }
 
 function filterFacts(category) {
-    if(category) {
-        const filtered = storage.filter(fact => fact.category === category);
-        createFactsList(filtered);
-    } else {
-        createFactsList(storage);
-    }
+  if (category) {
+    const filtered = storage.filter((fact) => fact.category === category);
+    createFactsList(filtered);
+  } else {
+    createFactsList(storage);
+  }
 }
 
 function createFactsList(dataArray) {
-    factsList.innerHTML = "";
-    const htmlArr = dataArray.map(
+  factsList.innerHTML = "";
+  const htmlArr = dataArray.map(
     (fact) => `<li class="fact">
                   <p>
                     ${fact.text}
