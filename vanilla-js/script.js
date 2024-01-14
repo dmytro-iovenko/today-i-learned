@@ -12,23 +12,29 @@ const CATEGORIES = [
 const btn = document.querySelector(".btn-open");
 const form = document.querySelector(".fact-form");
 const factsList = document.querySelector(".facts-list");
+const sideBar = document.querySelector(".side-bar");
 
 factsList.innerHTML = "";
+
+createSideBar(CATEGORIES);
 
 loadFacts();
 
 async function loadFacts() {
-    const res = await fetch("https://jpnjisjdtomhzxdyhcrm.supabase.co/rest/v1/facts", {
-        headers: {
-          apikey:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
-          authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
-        }
-      });
-      const data = await res.json();
-      console.log(data);
-      createFactsList(data);
+  const res = await fetch(
+    "https://jpnjisjdtomhzxdyhcrm.supabase.co/rest/v1/facts",
+    {
+      headers: {
+        apikey:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
+        authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impwbmppc2pkdG9taHp4ZHloY3JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUyMDcxMTAsImV4cCI6MjAyMDc4MzExMH0.TKk0U1CZ3fpZuHyOpFWR_mWeesO2HC-YCv9vrKmhO_w",
+      },
+    }
+  );
+  const data = await res.json();
+  console.log(data);
+  createFactsList(data);
 }
 
 function createFactsList(dataArray) {
@@ -43,7 +49,9 @@ function createFactsList(dataArray) {
                         >(Source)</a
                       >
                     </p>
-                    <span class="tag" style="background-color: #3b82f6"
+                    <span class="tag" style="background-color: ${
+                      CATEGORIES.find((cat) => cat.name === fact.category).color
+                    }"
                       >${fact.category}</span
                     >
                 </li>`
@@ -51,6 +59,22 @@ function createFactsList(dataArray) {
   const html = htmlArr.join("");
 
   factsList.insertAdjacentHTML("afterbegin", html);
+}
+
+function createSideBar(dataArray) {
+  const htmlArr = dataArray.map(
+    (cat) => `<li class="category">
+        <button
+          class="btn btn-category"
+          style="background-color: ${cat.color}"
+        >
+          ${cat.name}
+        </button>
+      </li>`
+  );
+  const html = htmlArr.join("");
+
+  sideBar.insertAdjacentHTML("beforeend", html);
 }
 
 btn.addEventListener("click", function () {
