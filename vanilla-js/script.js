@@ -23,16 +23,6 @@ createSideBar(CATEGORIES);
 
 loadFacts();
 
-// function to store data
-const storeData = (data) => {
-  if (storage.length > 0) {
-    storage = storage.concat(data.animals.slice());
-  } else {
-    storage = data.animals.slice();
-  }
-  return storage;
-};
-
 async function loadFacts() {
   const res = await fetch(
     "https://jpnjisjdtomhzxdyhcrm.supabase.co/rest/v1/facts",
@@ -48,7 +38,7 @@ async function loadFacts() {
   createFactsList(data);
 }
 
-function filterFacts(category) {
+window.filterFacts = function(category) {
   if (category) {
     const filtered = storage.filter((fact) => fact.category === category);
     createFactsList(filtered);
