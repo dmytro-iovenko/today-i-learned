@@ -9,16 +9,27 @@ const CATEGORIES = [
   { name: "news", color: "#8b5cf6" },
 ];
 
+// local storage to keep data
+let storage = [];
+
 const btn = document.querySelector(".btn-open");
 const form = document.querySelector(".fact-form");
 const factsList = document.querySelector(".facts-list");
 const sideBar = document.querySelector(".side-bar");
 
-factsList.innerHTML = "";
-
 createSideBar(CATEGORIES);
 
 loadFacts();
+
+// function to store data
+const storeData = data => {
+    if (storage.length > 0) {
+        storage = storage.concat(data.animals.slice());
+    } else {
+        storage = data.animals.slice();
+    }
+    return storage;
+}
 
 async function loadFacts() {
   const res = await fetch(
@@ -33,12 +44,22 @@ async function loadFacts() {
     }
   );
   const data = await res.json();
-  console.log(data);
+  storage = [...data];
   createFactsList(data);
 }
 
+function filterFacts(category) {
+    if(category) {
+        const filtered = storage.filter(fact => fact.category === category);
+        createFactsList(filtered);
+    } else {
+        createFactsList(storage);
+    }
+}
+
 function createFactsList(dataArray) {
-  const htmlArr = dataArray.map(
+    factsList.innerHTML = "";
+    const htmlArr = dataArray.map(
     (fact) => `<li class="fact">
                   <p>
                     ${fact.text}
@@ -64,9 +85,10 @@ function createFactsList(dataArray) {
 function createSideBar(dataArray) {
   const htmlArr = dataArray.map(
     (cat) => `<li class="category">
-        <button
+        <button 
           class="btn btn-category"
           style="background-color: ${cat.color}"
+          onclick="filterFacts('${cat.name}')"
         >
           ${cat.name}
         </button>
