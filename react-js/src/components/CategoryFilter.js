@@ -1,16 +1,14 @@
-function CategoryFilter() {
-  const filterFacts = () => {
-    return null;
-  };
+import { CATEGORIES } from "../data";
+import CategoryItem from "./CategoryItem";
 
+function CategoryFilter() {
   return (
     <aside>
       <ul className="side-bar">
-        <li className="category">
-          <button className="btn btn-all-categories" onClick={filterFacts}>
-            All
-          </button>
-        </li>
+        <CategoryItem category={{ name: "All" }} />
+        {CATEGORIES.map((category) => (
+          <CategoryItem category={category} key={category.name} />
+        ))}
       </ul>
     </aside>
   );
