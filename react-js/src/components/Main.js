@@ -3,7 +3,7 @@ import FactList from "./FactList";
 
 function Main() {
   return (
-    <main class="main">
+    <main className="main">
       <CategoryFilter />
       <FactList />
     </main>

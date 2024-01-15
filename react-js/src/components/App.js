@@ -4,7 +4,7 @@ import NewFactForm from "./NewFactForm";
 
 function App() {
   return (
-    <div class="container">
+    <div className="container">
       <Header />
       <NewFactForm />
       <Main />

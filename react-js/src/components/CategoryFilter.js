@@ -1,9 +1,13 @@
 function CategoryFilter() {
+  const filterFacts = () => {
+    return null;
+  };
+
   return (
     <aside>
-      <ul class="side-bar">
-        <li class="category">
-          <button class="btn btn-all-categories" onclick="filterFacts();">
+      <ul className="side-bar">
+        <li className="category">
+          <button className="btn btn-all-categories" onClick={filterFacts}>
             All
           </button>
         </li>
