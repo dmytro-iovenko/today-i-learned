@@ -1,11 +1,13 @@
 import CategoryFilter from "./CategoryFilter";
 import FactList from "./FactList";
 
-function Main() {
+function Main(props) {
+  const { facts } = props;
+
   return (
     <main className="main">
       <CategoryFilter />
-      <FactList />
+      <FactList facts={facts} />
     </main>
   );
 }

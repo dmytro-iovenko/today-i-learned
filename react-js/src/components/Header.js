@@ -1,7 +1,6 @@
 function Header(props) {
-  function toogleForm() {
-    props.setShowForm((show) => !show);
-  }
+  const { showForm, setShowForm } = props;
+  const toogleForm = () => setShowForm((show) => !show);
 
   return (
     <header className="header">
@@ -10,7 +9,7 @@ function Header(props) {
         <h1>Today I Learned</h1>
       </div>
       <button className="btn btn-large btn-open" onClick={toogleForm}>
-        Share a fact
+        {showForm ? "Close" : "Share a fact"}
       </button>
     </header>
   );

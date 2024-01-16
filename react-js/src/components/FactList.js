@@ -1,11 +1,12 @@
-import { initialFacts } from "../data";
 import FactItem from "./FactItem";
 
-function FactList() {
+function FactList(props) {
+  const { facts } = props;
+
   return (
     <section>
       <ul className="facts-list">
-        {initialFacts.map((fact) => (
+        {facts.map((fact) => (
           <FactItem fact={fact} key={fact.id} />
         ))}
       </ul>
