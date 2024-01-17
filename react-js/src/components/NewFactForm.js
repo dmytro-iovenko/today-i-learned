@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { CATEGORIES } from "../data";
+import supabase from "../services/supabase-api";
 
 function NewFactForm(props) {
-  const { facts, setFacts, setShowForm } = props;
+  const { setFacts, setShowForm } = props;
   const emptyData = {
     text: "",
     source: "",
     category: "",
   };
   const [formData, setFormData] = useState(emptyData);
+  const [isUploading, setIsUploading] = useState(false);
   const textLength = formData.text.length;
 
   const capitalize = (s) =>
@@ -43,23 +45,30 @@ function NewFactForm(props) {
     return url.protocol === "http:" || url.protocol === "https:";
   };
 
-  const submitForm = (event) => {
+  async function submitForm(event) {
     event.preventDefault();
     if (checkValidity()) {
-      let nextId = facts.length > 0 ? facts[facts.length - 1].id + 1 : 1;
-      let newFact = {
-        ...formData,
-        id: nextId,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
-      setFacts((facts) => [newFact, ...facts]);
+      // let nextId = facts.length > 0 ? facts[facts.length - 1].id + 1 : 1;
+      // let newFact = {
+      //   ...formData,
+      //   id: nextId,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+      setIsUploading(true);
+      const { data: newFact, error } = await supabase
+        .from("facts")
+        .insert([{ ...formData }])
+        .select();
+      setIsUploading(false);
+      if (!error) setFacts((facts) => [...newFact, ...facts]);
+      else alert("There was a problem uploading data");
       setFormData(emptyData);
       setShowForm(false);
     }
-  };
+  }
 
   return (
     <form className="fact-form" onSubmit={submitForm}>
@@ -69,6 +78,7 @@ function NewFactForm(props) {
         placeholder="Share a fact with the world..."
         value={formData.text}
         onChange={handleForm}
+        disabled={isUploading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -77,8 +87,14 @@ function NewFactForm(props) {
         placeholder="Trustworthy source..."
         value={formData.source}
         onChange={handleForm}
+        disabled={isUploading}
       />
-      <select name="category" value={formData.category} onChange={handleForm}>
+      <select
+        name="category"
+        value={formData.category}
+        onChange={handleForm}
+        disabled={isUploading}
+      >
         <option value="">Choose category:</option>
         {CATEGORIES.map((category) => (
           <option key={category.name} value={category.name}>
@@ -86,7 +102,9 @@ function NewFactForm(props) {
           </option>
         ))}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 }

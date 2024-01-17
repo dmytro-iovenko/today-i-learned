@@ -21,7 +21,7 @@ function App() {
         .order("votesInteresting", { ascending: false })
         .limit(20);
       if (!error) setFacts(facts);
-      else alert("Tehre was a problem getting data");
+      else alert("There was a problem getting data");
       setIsLoading(false);
     }
     getFacts();
@@ -31,11 +31,7 @@ function App() {
     <div className="container">
       <Header showForm={showForm} setShowForm={setShowForm} />
       {showForm && (
-        <NewFactForm
-          facts={facts}
-          setFacts={setFacts}
-          setShowForm={setShowForm}
-        />
+        <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
       )}
       <Main
         facts={facts}
