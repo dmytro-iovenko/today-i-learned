@@ -1,13 +1,22 @@
 import { CATEGORIES } from "../data";
 import CategoryItem from "./CategoryItem";
 
-function CategoryFilter() {
+function CategoryFilter(props) {
+  const { setCurrentCategory } = props;
+
   return (
     <aside>
       <ul className="side-bar">
-        <CategoryItem category={{ name: "All" }} />
+        <CategoryItem
+          category={{ name: "all" }}
+          setCurrentCategory={setCurrentCategory}
+        />
         {CATEGORIES.map((category) => (
-          <CategoryItem category={category} key={category.name} />
+          <CategoryItem
+            key={category.name}
+            category={category}
+            setCurrentCategory={setCurrentCategory}
+          />
         ))}
       </ul>
     </aside>

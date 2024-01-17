@@ -3,11 +3,11 @@ import FactList from "./FactList";
 import Loader from "./Loader";
 
 function Main(props) {
-  const { facts, isLoading } = props;
+  const { facts, isLoading, setCurrentCategory } = props;
 
   return (
     <main className="main">
-      <CategoryFilter />
+      <CategoryFilter setCurrentCategory={setCurrentCategory} />
       {isLoading ? <Loader /> : <FactList facts={facts} />}
     </main>
   );

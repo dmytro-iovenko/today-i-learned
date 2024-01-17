@@ -1,7 +1,8 @@
 function CategoryItem(props) {
-  const { category } = props;
-  const filterFacts = () => {
-    return null;
+  const { category, setCurrentCategory } = props;
+  const filterFacts = (event) => {
+    const category = event.target.textContent || event.target.innerText;
+    setCurrentCategory(category);
   };
 
   return (
@@ -15,7 +16,10 @@ function CategoryItem(props) {
           {category.name}
         </button>
       ) : (
-        <button className="btn btn-all-categories" onClick={filterFacts}>
+        <button 
+          className="btn btn-all-categories" 
+          onClick={filterFacts}
+        >
           {category.name}
         </button>
       )}
