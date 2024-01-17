@@ -1,4 +1,4 @@
-import apikey from "./config";
+import apikey from "../config";
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = 'https://jpnjisjdtomhzxdyhcrm.supabase.co'
