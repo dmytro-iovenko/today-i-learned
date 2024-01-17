@@ -1,7 +1,7 @@
 import FactItem from "./FactItem";
 
 function FactList(props) {
-  const { facts } = props;
+  const { facts, setFacts } = props;
 
   if (facts.length === 0)
     return (
@@ -14,7 +14,7 @@ function FactList(props) {
     <section>
       <ul className="facts-list">
         {facts.map((fact) => (
-          <FactItem fact={fact} key={fact.id} />
+          <FactItem fact={fact} key={fact.id} setFacts={setFacts} />
         ))}
       </ul>
       <p>There are {facts.length} facts in the database. Add your own!</p>

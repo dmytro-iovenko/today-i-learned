@@ -35,6 +35,7 @@ function App() {
       )}
       <Main
         facts={facts}
+        setFacts={setFacts}
         isLoading={isLoading}
         setCurrentCategory={setCurrentCategory}
       />
