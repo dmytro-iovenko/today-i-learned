@@ -5,6 +5,8 @@ import supabase from "../services/supabase-api";
 function FactItem(props) {
   const { fact, setFacts } = props;
   const [isUpdating, setIsUpdating] = useState(false);
+  const isDisputed =
+    fact.votesInteresting + fact.votesMindblowing < fact.votesFalse;
 
   async function handleVote(event) {
     const name = event.target.name;
@@ -25,6 +27,7 @@ function FactItem(props) {
   return (
     <li className="fact">
       <p>
+        {isDisputed && <span className="disputed">[⛔️ DISPUTED]</span>}
         {fact.text}
         <a
           className="source"
